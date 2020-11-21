@@ -11,10 +11,12 @@ public class PlayerController : MonoBehaviour
 
     public Transform gunArm;
 
+    private Camera theCam;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        theCam = Camera.main;
     }
 
     // Update is called once per frame
@@ -29,9 +31,26 @@ public class PlayerController : MonoBehaviour
 
         Vector3 mousePos = Input.mousePosition;         // This will give us the position of the mouse arrow
 
-        Vector3 screenPoint = Camera.main.WorldToScreenPoint(transform.localPosition);
+        Vector3 screenPoint = theCam.WorldToScreenPoint(transform.localPosition);
         //This gives us the position of the player from the viewpoint of main camera(localposition gives us the 
         //transform relative to the parent transform)
+
+        //Now, we adjust the player body ,such that it faces the direction where it shoots. Otherwise facing right while shooting left is
+        //just wierd.
+
+        if(mousePos.x < screenPoint.x)
+        {
+            transform.localScale = new Vector3(-1f, 1f, 1f);
+            gunArm.localScale = new Vector3(-1f, -1f, 1f);  // Done to correct wierd positions of the gun.
+        }
+        else
+        {
+            transform.localScale = Vector3.one ;
+            gunArm.localScale = Vector3.one ;
+        }
+
+
+
 
         // Now we will learn ,how to rotate the arm
         Vector2 offset = new Vector2(mousePos.x - screenPoint.x, mousePos.y - screenPoint.y);       //Note that here we took Vector2
