@@ -13,6 +13,8 @@ public class PlayerController : MonoBehaviour
 
     private Camera theCam;
 
+    public Animator anim;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -24,6 +26,8 @@ public class PlayerController : MonoBehaviour
     {
         moveInput.x = Input.GetAxisRaw("Horizontal");
         moveInput.y = Input.GetAxisRaw("Vertical");
+
+        moveInput.Normalize();      //this line ensures that the character moves the same distance with same force in all directions.
 
         //transform.position += new Vector3(moveInput.x * Time.deltaTime * moveSpeed, moveInput.y * Time.deltaTime * moveSpeed, 0f);
 
@@ -62,6 +66,13 @@ public class PlayerController : MonoBehaviour
                                                             //So, we use quaternion.euler if we want to give it vector inputs.
 
 
-
+        if(moveInput != Vector2.zero)
+        {
+            anim.SetBool("isWalking", true);
+        }
+        else
+        {
+            anim.SetBool("isWalking", false);
+        }
     }
 }
