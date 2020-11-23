@@ -15,6 +15,10 @@ public class PlayerController : MonoBehaviour
 
     public Animator anim;
 
+    public GameObject bulletToFire;
+
+    public Transform firePoint;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -64,6 +68,13 @@ public class PlayerController : MonoBehaviour
 
         gunArm.rotation = Quaternion.Euler(0, 0, angle);    //Note that rotation does not follow vector maths , but quaterion maths.
                                                             //So, we use quaternion.euler if we want to give it vector inputs.
+        
+        if(Input.GetMouseButtonDown(0))
+        {
+            Instantiate(bulletToFire, firePoint.position, firePoint.rotation);   //code for shooting bullets with mouse click
+
+        }
+
 
 
         if(moveInput != Vector2.zero)
